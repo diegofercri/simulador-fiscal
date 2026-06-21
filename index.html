@@ -73,6 +73,26 @@
 
       <div class="summary" id="estr-summary"></div>
 
+      <details class="months">
+        <summary>Ver desglose mes a mes (cada mes entra la liquidez y todo el saldo genera interés)</summary>
+        <p class="muted">
+          La TAE del 2 % es <strong>anual</strong>: equivale a ~0,165 %/mes
+          (<code>(1,02)^(1/12)−1</code>), no 2 % cada mes. El periodo es
+          <span id="estr-periodo"></span> (acumulación + espera hasta junio).
+        </p>
+        <div class="table-wrap">
+          <table id="tabla-estrategia">
+            <thead>
+              <tr>
+                <th>Mes</th><th>Aportación</th><th>Saldo inicial</th>
+                <th>Interés bruto</th><th>Impuesto 19%</th><th>Saldo final</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </details>
+
       <div id="estr-veredicto" class="callout"></div>
     </section>
 

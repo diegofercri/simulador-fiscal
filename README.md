@@ -48,6 +48,22 @@ Caso base (400 €/mes durante 12 meses, mantenidos hasta junio del año siguien
 
 Sensibilidad: ~81 € al 2 % TAE, ~121 € al 3 %, ~162 € al 4 %.
 
+### El cálculo es mes a mes
+
+Cada mes entra la liquidez extra y **todo el saldo acumulado** genera interés, que se suma al saldo
+(capitalización mensual). La TAE del 2 % es **anual**: equivale a ~0,165 %/mes
+(`(1,02)^(1/12) − 1`), **no** 2 % cada mes.
+
+| Mes | Aportación | Saldo inicial | Interés bruto | Impuesto 19 % | Saldo final |
+|---|---|---|---|---|---|
+| 1 | 400 € | 400,00 € | 0,66 € | 0,13 € | 400,54 € |
+| 2 | 400 € | 800,54 € | 1,32 € | 0,25 € | 801,61 € |
+| 6 | 400 € | 2.408,04 € | 3,98 € | 0,76 € | 2.411,26 € |
+| 12 | 400 € | 4.835,48 € | 7,99 € | 1,52 € | 4.841,94 € |
+| 18 | 0 € | 4.874,42 € | 8,05 € | 1,53 € | 4.880,94 € |
+
+Tras 18 meses: interés bruto 99,92 €, neto **80,94 €**. La tabla completa es interactiva en la web.
+
 **Veredicto:** sale a cuenta, pero por poco (≈ 80 €/año al 2 %), y solo si de verdad **inviertes la
 diferencia, no la gastas** y reservas los ~4.340 € para junio. Si te lo gastas, en junio tienes una
 factura sin fondos. Además, lo que "te sobra" tras pagar incluye la devolución que habrías cobrado

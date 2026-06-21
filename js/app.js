@@ -68,6 +68,16 @@ function renderEstrategia(r) {
     .map(([k, v]) => `<div class="stat"><span>${k}</span><strong>${v}</strong></div>`)
     .join('');
 
+  $('estr-periodo').textContent = `${e.meses} meses`;
+  $('tabla-estrategia').querySelector('tbody').innerHTML = e.filas
+    .map(
+      (f) =>
+        `<tr><td>${f.mes}</td><td>${eur(f.aportacion)}</td><td>${eur(f.saldoInicial)}</td>` +
+        `<td>${eur(f.interesBruto)}</td><td>${eur(f.impuesto)}</td>` +
+        `<td><strong>${eur(f.saldoFinal)}</strong></td></tr>`
+    )
+    .join('');
+
   const positivo = e.beneficioReal > 0 && e.cubreRenta;
   const box = $('estr-veredicto');
   box.className = 'callout ' + (positivo ? 'ok' : 'warn');

@@ -31,14 +31,18 @@ function evaluarEstrategia(opts) {
   let interesBruto = 0;
   let impuesto = 0;
   const meses = mesesAcumulacion + mesesEspera;
+  const filas = [];
 
   for (let m = 1; m <= meses; m++) {
-    if (m <= mesesAcumulacion) saldo += liquidezMensual;
+    const aportacion = m <= mesesAcumulacion ? liquidezMensual : 0;
+    saldo += aportacion;
+    const saldoInicial = saldo;
     const ib = saldo * tasaMensual;
     const im = ib * tipoAhorro;
     saldo += ib - im;
     interesBruto += ib;
     impuesto += im;
+    filas.push({ mes: m, aportacion, saldoInicial, interesBruto: ib, impuesto: im, saldoFinal: saldo });
   }
 
   const aportado = liquidezMensual * mesesAcumulacion;
@@ -51,6 +55,7 @@ function evaluarEstrategia(opts) {
   // dejas de cobrar (devolucionPerdida) la habrías recibido igualmente sin la
   // maniobra, así que no cuenta como ganancia.
   return {
+    filas,
     aportado,
     saldoFinal: saldo,
     interesBruto,

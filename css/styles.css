@@ -118,6 +118,10 @@ tbody tr:hover { background: rgba(37, 99, 235, .04); }
 .stat span { font-size: .78rem; color: var(--muted); }
 .stat strong { font-size: 1.15rem; }
 
+.months { margin: 1rem 0; }
+.months > summary { cursor: pointer; font-weight: 600; color: var(--accent); padding: .4rem 0; }
+.months code { background: var(--bg); padding: .05rem .3rem; border-radius: 4px; }
+
 .chart-wrap { margin: 1rem 0; }
 .muted { color: var(--muted); font-size: .85rem; }
 
