@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulador fiscal: retención IRPF e interés compuesto</title>
+  <meta name="description" content="Simulador del impacto de bajar la retención del IRPF y proyección de interés compuesto con fiscalidad del ahorro." />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <h1>Simulador fiscal</h1>
+    <p class="subtitle">Impacto de bajar la retención del IRPF + interés compuesto del ahorro</p>
+  </header>
+
+  <main>
+    <!-- ============ PARÁMETROS ============ -->
+    <section class="card" aria-labelledby="params-title">
+      <h2 id="params-title">Parámetros</h2>
+      <div class="grid">
+        <label>Sueldo bruto anual (€)
+          <input type="number" id="bruto" value="30000" min="0" step="500" />
+        </label>
+        <label>Retención actual (%)
+          <input type="number" id="retActual" value="18" min="0" max="47" step="0.5" />
+        </label>
+        <label>Retención nueva (%)
+          <input type="number" id="retNueva" value="2" min="0" max="47" step="0.5" />
+        </label>
+        <label>Número de pagas
+          <select id="pagas">
+            <option value="14" selected>14 pagas</option>
+            <option value="12">12 pagas</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <!-- ============ IRPF ============ -->
+    <section class="card" aria-labelledby="irpf-title">
+      <h2 id="irpf-title">1. Retención IRPF: liquidez vs. ajuste en la renta</h2>
+      <div class="table-wrap">
+        <table id="tabla-irpf">
+          <thead>
+            <tr><th>Concepto</th><th>Retención actual</th><th>Retención nueva</th><th>Diferencia</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div id="aviso-diferimiento" class="callout warn">
+        <strong>Esto no es ahorro fiscal.</strong>
+        <span id="aviso-texto"></span>
+      </div>
+    </section>
+
+    <!-- ============ INTERÉS COMPUESTO ============ -->
+    <section class="card" aria-labelledby="comp-title">
+      <h2 id="comp-title">2. Interés compuesto anual (estilo Trade Republic)</h2>
+      <div class="grid">
+        <label>Capital inicial (€)
+          <input type="number" id="capitalInicial" value="10000" min="0" step="500" />
+        </label>
+        <label>Aportación anual (€)
+          <input type="number" id="aportacionAnual" value="2400" min="0" step="100" />
+        </label>
+        <label>TAE (%) — capitalización anual
+          <input type="number" id="tae" value="2" min="0" max="20" step="0.05" />
+        </label>
+        <label>Impuesto del ahorro (%)
+          <input type="number" id="tipoAhorro" value="19" min="0" max="30" step="0.5" />
+        </label>
+        <label>Años a proyectar
+          <input type="number" id="anios" value="10" min="1" max="50" step="1" />
+        </label>
+      </div>
+
+      <div class="summary" id="comp-summary"></div>
+
+      <div class="chart-wrap">
+        <canvas id="grafico-saldo" height="120"></canvas>
+        <p id="chart-fallback" class="muted" hidden>
+          (Gráfico no disponible sin conexión; la tabla inferior sigue siendo válida.)
+        </p>
+      </div>
+
+      <div class="table-wrap">
+        <table id="tabla-compuesto">
+          <thead>
+            <tr>
+              <th>Año</th><th>Saldo inicial</th><th>Aportación</th>
+              <th>Interés bruto</th><th>Impuesto 19%</th><th>Interés neto</th><th>Saldo final</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card disclaimer">
+      <p><strong>Aviso:</strong> herramienta educativa con un modelo simplificado del IRPF español
+      (escala general 2025, SS 6,35%, gastos 2.000 €, mínimo personal 5.550 €). No considera
+      deducciones personales/familiares ni variaciones por comunidad autónoma. El ahorro tributa
+      realmente por tramos (19%/21%/23%...). <strong>No es asesoramiento fiscal.</strong></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Código abierto · <a id="repo-link" href="https://github.com/diegofercri/simulador-fiscal">GitHub</a></p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="js/irpf.js"></script>
+  <script src="js/compound.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
