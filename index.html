@@ -54,9 +54,31 @@
       </div>
     </section>
 
+    <!-- ============ ¿SALE A CUENTA? ============ -->
+    <section class="card" aria-labelledby="estr-title">
+      <h2 id="estr-title">2. ¿Sale a cuenta diferir e invertir hasta junio?</h2>
+      <p class="muted">
+        Bajas al 2 %, aparcas la liquidez extra en Trade Republic (2 % TAE) y la sacas en junio para
+        pagar la renta. La maniobra es neutra en impuestos: el beneficio real es solo el interés neto
+        que generan esos euros mientras los tienes (Hacienda no paga intereses por retenerte de más).
+      </p>
+      <div class="grid">
+        <label>Meses acumulando aportaciones
+          <input type="number" id="mesesAcum" value="12" min="1" max="12" step="1" />
+        </label>
+        <label>Meses de espera hasta pagar (Dic→Jun ≈ 6)
+          <input type="number" id="mesesEspera" value="6" min="0" max="12" step="1" />
+        </label>
+      </div>
+
+      <div class="summary" id="estr-summary"></div>
+
+      <div id="estr-veredicto" class="callout"></div>
+    </section>
+
     <!-- ============ INTERÉS COMPUESTO ============ -->
     <section class="card" aria-labelledby="comp-title">
-      <h2 id="comp-title">2. Interés compuesto anual (estilo Trade Republic)</h2>
+      <h2 id="comp-title">3. Interés compuesto anual (proyección libre)</h2>
       <div class="grid">
         <label>Capital inicial (€)
           <input type="number" id="capitalInicial" value="10000" min="0" step="500" />
@@ -111,6 +133,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="js/irpf.js"></script>
+  <script src="js/strategy.js"></script>
   <script src="js/compound.js"></script>
   <script src="js/app.js"></script>
 </body>

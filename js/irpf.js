@@ -104,6 +104,8 @@ function compararRetenciones(bruto, retActual, retNueva, pagas) {
 
   return {
     fiscal,
+    retActual,
+    retNueva,
     retenidoActual,
     retenidoNuevo,
     declaracionActual,

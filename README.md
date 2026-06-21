@@ -29,6 +29,30 @@ Ejemplo con 30.000 € de bruto:
 Es **diferimiento de caja**, no ahorro. Tener los 400 €/mes durante el año puede ser útil (p. ej.
 invertirlos), pero hay que reservar para el pago de la renta.
 
+## ¿Sale a cuenta diferir e invertir hasta junio?
+
+La estrategia: bajar al 2 %, aparcar la liquidez extra en una cuenta remunerada (Trade Republic, 2 %
+TAE) e ir a buscarla en junio para pagar la renta. Como la maniobra es neutra en impuestos, **el único
+beneficio es el interés neto** que generan esos euros mientras los tienes (Hacienda no paga intereses
+por retenerte de más).
+
+Caso base (400 €/mes durante 12 meses, mantenidos hasta junio del año siguiente, 2 % TAE, 19 % ahorro):
+
+| | |
+|---|---|
+| Liquidez aparcada | 4.800 € |
+| Saldo en junio (con interés) | 4.880,94 € |
+| Interés bruto | 99,92 € |
+| Impuesto del ahorro (19 %) | 18,99 € |
+| **Beneficio real (interés neto)** | **80,94 €** |
+
+Sensibilidad: ~81 € al 2 % TAE, ~121 € al 3 %, ~162 € al 4 %.
+
+**Veredicto:** sale a cuenta, pero por poco (≈ 80 €/año al 2 %), y solo si de verdad **inviertes la
+diferencia, no la gastas** y reservas los ~4.340 € para junio. Si te lo gastas, en junio tienes una
+factura sin fondos. Además, lo que "te sobra" tras pagar incluye la devolución que habrías cobrado
+igualmente: no es ganancia.
+
 ## Fórmulas
 
 ### IRPF (`js/irpf.js`)

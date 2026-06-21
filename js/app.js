@@ -16,21 +16,15 @@ let grafico = null;
 /** Lee un porcentaje de input (en %) y lo devuelve como fracción. */
 const frac = (id) => num(id) / 100;
 
-function renderIRPF() {
-  const bruto = num('bruto');
-  const retActual = frac('retActual');
-  const retNueva = frac('retNueva');
-  const pagas = parseInt($('pagas').value, 10);
-
-  const r = window.IRPF.compararRetenciones(bruto, retActual, retNueva, pagas);
+function renderIRPF(r) {
   const resultadoTexto = (v) =>
     v > 0 ? `${eur(v)} a pagar` : v < 0 ? `${eur(-v)} a devolver` : '0 €';
 
   const filas = [
-    ['Retención aplicada', pct(retActual), pct(retNueva), '—'],
+    ['Retención aplicada', pct(r.retActual), pct(r.retNueva), '—'],
     ['Retenido en el año', eur(r.retenidoActual), eur(r.retenidoNuevo), eur(r.retenidoNuevo - r.retenidoActual)],
     ['Cuota líquida real (impuesto)', eur(r.fiscal.cuotaLiquida), eur(r.fiscal.cuotaLiquida), eur(0)],
-    [`Liquidez por paga (×${pagas})`, eur(0), eur(r.liquidezPorPaga), eur(r.liquidezPorPaga)],
+    [`Liquidez por paga (×${r.pagas})`, eur(0), eur(r.liquidezPorPaga), eur(r.liquidezPorPaga)],
     ['Liquidez extra mensual (÷12)', '—', '—', eur(r.liquidezMensual)],
     ['Carga impositiva acumulada anual', eur(r.fiscal.cuotaLiquida), eur(r.fiscal.cuotaLiquida), eur(0)],
     ['Ajuste en la declaración de la renta', resultadoTexto(r.declaracionActual), resultadoTexto(r.declaracionNueva), eur(r.declaracionNueva - r.declaracionActual)],
@@ -49,6 +43,44 @@ function renderIRPF() {
     `pero la cuota líquida del IRPF sigue siendo ${eur(r.fiscal.cuotaLiquida)} (tipo medio real ${pct(r.fiscal.tipoMedioReal)}, ` +
     `marginal ${pct(r.fiscal.tipoMarginal)}). La declaración pasa a salir ${resultadoTexto(r.declaracionNueva)}. ` +
     `Ahorro fiscal real: ${eur(Math.abs(r.ahorroFiscalReal) < 0.01 ? 0 : r.ahorroFiscalReal)} — es diferimiento de caja, no un ahorro.`;
+}
+
+function renderEstrategia(r) {
+  const importeRenta = Math.max(0, r.declaracionNueva);
+  const devolucionPerdida = Math.max(0, -r.declaracionActual);
+
+  const e = window.Strategy.evaluarEstrategia({
+    liquidezMensual: r.liquidezMensual,
+    mesesAcumulacion: Math.round(num('mesesAcum')),
+    mesesEspera: Math.round(num('mesesEspera')),
+    tae: frac('tae'),
+    tipoAhorro: frac('tipoAhorro'),
+    importeRenta,
+    devolucionPerdida,
+  });
+
+  $('estr-summary').innerHTML = [
+    ['Liquidez aparcada (aportado)', eur(e.aportado)],
+    ['Saldo en junio (con interés)', eur(e.saldoFinal)],
+    ['A pagar en la renta', eur(importeRenta)],
+    ['Beneficio real (interés neto)', eur(e.beneficioReal)],
+  ]
+    .map(([k, v]) => `<div class="stat"><span>${k}</span><strong>${v}</strong></div>`)
+    .join('');
+
+  const positivo = e.beneficioReal > 0 && e.cubreRenta;
+  const box = $('estr-veredicto');
+  box.className = 'callout ' + (positivo ? 'ok' : 'warn');
+  box.innerHTML =
+    `<strong>${positivo ? 'Sí, pero por poco.' : 'Cuidado.'}</strong> ` +
+    `Aparcando ${eur(e.aportado)} a ${pct(frac('tae'))} TAE durante ${e.meses} meses ganas ` +
+    `<strong>${eur(e.beneficioReal)}</strong> netos (tras el ${pct(frac('tipoAhorro'))} del ahorro). ` +
+    `Es el único beneficio: la maniobra no ahorra impuestos. ` +
+    (devolucionPerdida > 0
+      ? `Ojo: los ${eur(e.sobranteTrasPagar)} que “sobran” incluyen ${eur(devolucionPerdida)} de devolución que habrías cobrado igualmente; no son ganancia. `
+      : '') +
+    `Solo compensa si <strong>inviertes la diferencia y no la gastas</strong>, y reservas los ` +
+    `${eur(importeRenta)} para junio. Si te lo gastas, en junio tienes una factura sin fondos.`;
 }
 
 function renderCompuesto() {
@@ -125,7 +157,15 @@ function renderGrafico(filas) {
 }
 
 function recalcular() {
-  renderIRPF();
+  const bruto = num('bruto');
+  const r = window.IRPF.compararRetenciones(
+    bruto,
+    frac('retActual'),
+    frac('retNueva'),
+    parseInt($('pagas').value, 10)
+  );
+  renderIRPF(r);
+  renderEstrategia(r);
   renderCompuesto();
 }
 
